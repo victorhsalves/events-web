@@ -1,0 +1,8 @@
+.container-content {
+    min-height: 800px;
+    width: 100%;
+}
+
+.appFacebookIcon {
+    background-image: url('../images/appFooterFacebook.png');
+}
