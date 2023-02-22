@@ -7,7 +7,6 @@ import AppFooter from "./components/shared/views/AppFooter";
 import * as React from 'react';
 import withRoot from './components/modules/withRoot';
 import EventList from "./components/pages/Events/EventList";
-import EventDetails from "./components/pages/Events/EventDetails";
 
 function Router() {
     return (
@@ -19,7 +18,6 @@ function Router() {
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
                     <Route path="/events/list" element={<EventList />} />
-                    <Route path="/events/detail" element={<EventDetails />} />
                 </Routes>
             </div>
             <AppFooter />

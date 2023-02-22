@@ -3,11 +3,11 @@ import '../../../assets/css/global.css';
 import imagemCardTeste from '../../../assets/images/imagem-card-teste.jpg';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 
-function EventCard() {
+function EventCard(props: {handleOpen: () => void, handleClose: () => void; }) {
 
     return (
         <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
+            <CardActionArea onClick={props.handleOpen}>
                 <CardMedia
                     component="img"
                     height="140"
@@ -25,7 +25,7 @@ function EventCard() {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary" href='/event/detail'>
+                <Button size="small" color="primary" onClick={props.handleOpen}>
                     Share
                 </Button>
             </CardActions>
@@ -33,4 +33,4 @@ function EventCard() {
     );
 }
 
-export default withRoot(EventCard);
+export {EventCard};
