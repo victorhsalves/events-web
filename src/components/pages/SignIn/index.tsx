@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
+import { useCookies } from "react-cookie";
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '../../shared/Typography';
@@ -9,9 +10,13 @@ import RFTextField from '../../shared/form/RFTextField';
 import FormButton from '../../shared/form/FormButton';
 import FormFeedback from '../../shared/form/FormFeedback';
 import withRoot from '../../modules/withRoot';
+import api from '../../../providers/api';
+import jwt from 'jwt-decode';
+import { UserContext, UserType } from '../../../context/UserContext';
 
 function SignIn() {
   const [sent, setSent] = React.useState(false);
+  const {user, signIn} = React.useContext(UserContext);
 
   const validate = (values: { [index: string]: string }) => {
     const errors = required(['email', 'password'], values);
@@ -26,9 +31,16 @@ function SignIn() {
     return errors;
   };
 
-  const handleSubmit = () => {
-    setSent(true);
-  };
+  async function handleSubmit(values : {email: string, password: string}) {
+    const result = await api.post('/signin', {
+      email: values.email,
+      password: values.password
+    }).then(data => {
+      signIn(data.data.token);
+    }).catch((error) => {
+      console.log('Error: ', error)
+    })
+  }
 
   return (
     <React.Fragment>
@@ -38,13 +50,13 @@ function SignIn() {
             Sign In
           </Typography>
           <Typography variant="body2" align="center">
-            {'Not a member yet? '}
+            {'Não possui cadastro? '}
             <Link
-              href="/premium-themes/onepirate/sign-up/"
+              href="/sign-up/"
               align="center"
               underline="always"
             >
-              Sign Up here
+              Registre-se aqui
             </Link>
           </Typography>
         </React.Fragment>
@@ -75,7 +87,7 @@ function SignIn() {
                 required
                 name="password"
                 autoComplete="current-password"
-                label="Password"
+                label="Senha"
                 type="password"
                 margin="normal"
               />
@@ -101,8 +113,8 @@ function SignIn() {
           )}
         </Form>
         <Typography align="center">
-          <Link underline="always" href="/premium-themes/onepirate/forgot-password/">
-            Forgot password?
+          <Link underline="always" href="/sign-up/">
+            Esqueceu sua senha?
           </Link>
         </Typography>
       </AppForm>

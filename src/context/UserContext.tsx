@@ -7,11 +7,14 @@ type UserContextProps = {
 }
 
 type UserContextType = {
-    user: UserType,
-    setUser: (newUser: UserType) => void
+    signed: boolean,
+    user: UserType | null,
+    loadingUser: boolean,
+    signIn(token: string): Promise<void>,
+    signOut(): Promise<void>
 }
 
-type UserType = {
+export type UserType = {
     exp: number,
     iat: number,
     name: string,
@@ -21,45 +24,45 @@ type UserType = {
     token: string,
 }
 
-const defaultValue = {
-    user: {
-        exp: 0,
-        iat: 0,
-        name: '',
-        profile: '',
-        supervisor: '',
-        username: '',
-        token: '',
-    },
-    setUser: () => { }
-}
-
-export const UserContext = createContext<UserContextType>(defaultValue);
+export const UserContext = createContext<UserContextType>({} as UserContextType);
 
 
 export const UserContextProvider = ({ children }: UserContextProps) => {
-    
-    const [user, setUser] = useState<UserType>({
-        exp: 0,
-        iat: 0,
-        name: '',
-        profile: '',
-        supervisor: '',
-        username: '',
-        token: ''
-    });
-    
+
+    const [user, setUser] = useState<UserType | null>(null);
+    const [loadingUser, setLoadingUser] = useState<boolean>(true);
+
+    async function signIn(token: string) {
+        const userStorage: UserType = jwt(token);
+        setUser({ ...userStorage, token: token });
+
+        localStorage.setItem('auth:user', JSON.stringify(userStorage));
+        localStorage.setItem('auth:token', token);
+    }
+
+    async function signOut() {
+        localStorage.clear();
+        setUser(null);
+    }
+
     useEffect(() => {
-        const token = Cookies.get('auth-token');
-        
-        if (token) {
-            const userStorage: UserType = jwt(token);
-            setUser({...userStorage, token: token});
+        async function loadStorageData() {
+            const storagedUser = localStorage.getItem('auth:user');
+            const storagedToken = localStorage.getItem('auth:token');
+            // simular uma lentidão para mostar o loading.
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+
+            if (storagedToken && storagedUser) {
+                setUser({...JSON.parse(storagedUser), token: storagedToken});
+            }
+            setLoadingUser(false);
         }
-    }, [])
+
+        loadStorageData();
+    },[localStorage.getItem('auth:token')])
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ signed: !!user, user, loadingUser, signIn , signOut }}>
             {children}
         </UserContext.Provider>
     )

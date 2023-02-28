@@ -39,8 +39,8 @@ function SignUp() {
             Sign Up
           </Typography>
           <Typography variant="body2" align="center">
-            <Link href="/premium-themes/onepirate/sign-in/" underline="always">
-              Already have an account?
+            <Link href="/sign-in/" underline="always">
+              Já possui cadastro?
             </Link>
           </Typography>
         </React.Fragment>
@@ -51,31 +51,20 @@ function SignUp() {
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
             <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    autoFocus
-                    component={RFTextField}
-                    disabled={submitting || sent}
-                    autoComplete="given-name"
-                    fullWidth
-                    label="First name"
-                    name="firstName"
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    component={RFTextField}
-                    disabled={submitting || sent}
-                    autoComplete="family-name"
-                    fullWidth
-                    label="Last name"
-                    name="lastName"
-                    required
-                  />
-                </Grid>
-              </Grid>
+              {/* <Grid container spacing={2}>
+                <Grid item xs={12} sm={12}> */}
+              <Field
+                autoFocus
+                component={RFTextField}
+                disabled={submitting || sent}
+                autoComplete="given-name"
+                fullWidth
+                label="Nome Completo"
+                name="name"
+                required
+              />
+              {/* </Grid>
+              </Grid> */}
               <Field
                 autoComplete="email"
                 component={RFTextField}
@@ -86,17 +75,106 @@ function SignUp() {
                 name="email"
                 required
               />
-              <Field
-                fullWidth
-                component={RFTextField}
-                disabled={submitting || sent}
-                required
-                name="password"
-                autoComplete="new-password"
-                label="Password"
-                type="password"
-                margin="normal"
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    fullWidth
+                    component={RFTextField}
+                    disabled={submitting || sent}
+                    required
+                    name="password"
+                    autoComplete="new-password"
+                    label="Senha"
+                    type="password"
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    fullWidth
+                    component={RFTextField}
+                    disabled={submitting || sent}
+                    required
+                    name="password"
+                    autoComplete="new-password"
+                    label="Confirme a Senha"
+                    type="password"
+                    margin="normal"
+                  />
+                </Grid>
+              </Grid>
+                  <Field
+                    fullWidth
+                    component={RFTextField}
+                    disabled={submitting || sent}
+                    required
+                    name="address"
+                    autoComplete="address"
+                    label="Endereço"
+                    margin="normal"
+                  />
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        fullWidth
+                        component={RFTextField}
+                        disabled={submitting || sent}
+                        required
+                        name="zip_code"
+                        autoComplete="zip-code"
+                        label="CEP"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        fullWidth
+                        component={RFTextField}
+                        disabled={submitting || sent}
+                        required
+                        name="district"
+                        autoComplete="district"
+                        label="Bairro"
+                        margin="normal"
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={8}>
+                      <Field
+                        fullWidth
+                        component={RFTextField}
+                        disabled={submitting || sent}
+                        required
+                        name="city"
+                        autoComplete="city"
+                        label="Cidade"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <Field
+                        fullWidth
+                        component={RFTextField}
+                        disabled={submitting || sent}
+                        required
+                        name="state"
+                        autoComplete="state"
+                        label="UF"
+                        margin="normal"
+                      />
+                    </Grid>
+                  </Grid>
+                      <Field
+                        fullWidth
+                        component={RFTextField}
+                        disabled={submitting || sent}
+                        required
+                        name="country"
+                        autoComplete="country"
+                        label="País"
+                        margin="normal"
+                      />
               <FormSpy subscription={{ submitError: true }}>
                 {({ submitError }) =>
                   submitError ? (
